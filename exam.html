@@ -127,18 +127,21 @@ let html=`<h3>Question ${current+1}</h3>
 q.options.forEach((opt,i)=>{
 
 let checked=""
+let disabled=""
 
 if(answers[current]==i){
-
 checked="checked"
+}
 
+if(locked[current]){
+disabled="disabled"
 }
 
 html+=`
 
 <div class="option">
 
-<input type="radio" name="ans" value="${i}" ${checked} onchange="saveAnswer(${i})">
+<input type="radio" name="ans" value="${i}" ${checked} ${disabled} onchange="saveAnswer(${i})">
 
 ${opt}
 
@@ -148,7 +151,6 @@ ${opt}
 })
 
 document.getElementById("questionArea").innerHTML=html
-
 }
 
 function saveAnswer(val){
