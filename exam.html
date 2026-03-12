@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>PMP Exam</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:40px;
+}
+
+.option{
+margin:8px;
+}
+
+#timer{
+font-size:20px;
+color:red;
+}
+
+button{
+padding:10px;
+margin-top:20px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>PMP Simulation Exam</h2>
+
+<div id="timer">70:00</div>
+
+<hr>
+
+<div id="questionArea"></div>
+
+<button onclick="nextQuestion()">Next</button>
+
+<button onclick="submitExam()">Submit Exam</button>
+
+<script>
+
+let questions=[]
+let current=0
+let answers=[]
+
+fetch("exam1.json")
+.then(res=>res.json())
+.then(data=>{
+questions=data
+loadQuestion()
+})
+
+function loadQuestion(){
+
+let q=questions[current]
+
+let html=`<h3>Question ${current+1}</h3>
+<p>${q.question}</p>`
+
+q.options.forEach((opt,i)=>{
+
+html+=`
+<div class="option">
+<input type="radio" name="ans" value="${i}">
+${opt}
+</div>`
+})
+
+document.getElementById("questionArea").innerHTML=html
+
+}
+
+function nextQuestion(){
+
+let selected=document.querySelector('input[name="ans"]:checked')
+
+if(selected){
+
+answers[current]=parseInt(selected.value)
+
+}
+
+current++
+
+if(current<questions.length){
+
+loadQuestion()
+
+}
+
+}
+
+function submitExam(){
+
+let score=0
+
+questions.forEach((q,i)=>{
+
+if(answers[i]==q.correct){
+
+score++
+
+}
+
+})
+
+alert("Your Score: "+score+" / "+questions.length)
+
+}
+
+let time=70*60
+
+setInterval(()=>{
+
+time--
+
+let m=Math.floor(time/60)
+let s=time%60
+
+document.getElementById("timer").innerText=
+m+":"+(s<10?"0"+s:s)
+
+if(time<=0){
+
+submitExam()
+
+}
+
+},1000)
+
+</script>
+
+</body>
+
+</html>
