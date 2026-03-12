@@ -1,0 +1,15 @@
+[
+{
+"id":1,
+"domain":"People",
+"question":"Which of the following best exemplifies servant leadership?",
+"options":[
+"The product owner clarifies requirements",
+"The facilitator helps unblock a team member",
+"The expert conducts training",
+"The manager rewards top performers"
+],
+"correct":1,
+"explanation":"Servant leadership prioritizes team needs and removes blockers."
+}
+]
