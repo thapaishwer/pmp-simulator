@@ -1,57 +1,200 @@
-[
-{
-"question":"A project manager notices a conflict between two team members. What should the project manager do first?",
-"options":[
-"Escalate to sponsor",
-"Facilitate discussion",
-"Replace a team member",
-"Update risk register"
-],
-"correct":1
-},
+<script>
 
-{
-"question":"Which document authorizes a project?",
-"options":[
-"Project charter",
-"Project plan",
-"Business case",
-"Scope statement"
-],
-"correct":0
-},
+let questions=[]
+let current=0
+let answers=[]
+let locked=[]
+let paused=false
+let timerInterval
 
-{
-"question":"What leadership style encourages team participation?",
-"options":[
-"Autocratic",
-"Democratic",
-"Laissez-faire",
-"Directive"
-],
-"correct":1
-},
+fetch("data/exam1.json")
+.then(res => res.json())
+.then(data => {
 
-{
-"question":"Which technique identifies root causes of issues?",
-"options":[
-"Fishbone diagram",
-"Monte Carlo",
-"PERT",
-"Earned Value"
-],
-"correct":0
-},
+questions=data
 
-{
-"question":"What is the main purpose of stakeholder engagement?",
-"options":[
-"Reduce project cost",
-"Increase project speed",
-"Align expectations",
-"Remove risks"
-],
-"correct":2
+createNavigator()
+loadQuestion()
+
+})
+.catch(err=>{
+console.error("Error loading questions:",err)
+})
+
+function createNavigator(){
+
+let nav=""
+
+for(let i=0;i<questions.length;i++){
+
+nav+=`<button class="qbtn unanswered" id="q${i}" onclick="goToQuestion(${i})">${i+1}</button>`
+
 }
 
-]
+document.getElementById("navigator").innerHTML=nav
+
+}
+
+function loadQuestion(){
+
+let q=questions[current]
+
+let html=`<h3>Question ${current+1}</h3>
+<p>${q.question}</p>`
+
+q.options.forEach((opt,i)=>{
+
+let checked=""
+let disabled=""
+
+if(answers[current]==i) checked="checked"
+if(locked[current]) disabled="disabled"
+
+html+=`
+
+<div class="option">
+
+<input type="radio" name="ans" value="${i}" ${checked} ${disabled} onchange="saveAnswer(${i})">
+
+${opt}
+
+</div>
+`
+
+})
+
+document.getElementById("questionArea").innerHTML=html
+document.getElementById("explanationArea").innerHTML=""
+
+}
+
+function saveAnswer(val){
+
+answers[current]=val
+
+document.getElementById("q"+current).classList.remove("unanswered")
+document.getElementById("q"+current).classList.add("answered")
+
+}
+
+function nextQuestion(){
+
+if(current<questions.length-1){
+
+current++
+loadQuestion()
+
+}
+
+}
+
+function prevQuestion(){
+
+if(current>0){
+
+current--
+loadQuestion()
+
+}
+
+}
+
+function goToQuestion(i){
+
+current=i
+loadQuestion()
+
+}
+
+function submitAnswer(){
+
+let selected=document.querySelector('input[name="ans"]:checked')
+
+if(!selected){
+
+alert("Please select an answer first")
+return
+
+}
+
+let val=parseInt(selected.value)
+
+answers[current]=val
+locked[current]=true
+
+let q=questions[current]
+
+let correct=q.correct
+let explanation=q.explanation
+
+let result = val==correct
+? "<b style='color:green'>Correct ✔</b>"
+: "<b style='color:red'>Incorrect ❌</b>"
+
+document.getElementById("explanationArea").innerHTML=
+
+result +
+"<br><br><b>Correct Answer:</b> " + q.options[correct] +
+"<br><br><b>Explanation:</b> " + explanation
+
+loadQuestion()
+
+}
+
+function submitExam(){
+
+let score=0
+
+questions.forEach((q,i)=>{
+
+if(answers[i]==q.correct) score++
+
+})
+
+alert("Your Score: "+score+" / "+questions.length)
+
+}
+
+let time=70*60
+
+timerInterval=setInterval(updateTimer,1000)
+
+function updateTimer(){
+
+if(!paused){
+
+time--
+
+let m=Math.floor(time/60)
+let s=time%60
+
+document.getElementById("timer").innerText =
+m+":"+(s<10?"0"+s:s)
+
+if(time<=0) submitExam()
+
+}
+
+}
+
+function togglePause(){
+
+paused=!paused
+
+let btn=document.querySelector("button[onclick='togglePause()']")
+
+if(paused){
+
+btn.innerText="Resume Exam"
+document.getElementById("questionArea").style.opacity="0.3"
+
+}else{
+
+btn.innerText="Pause"
+document.getElementById("questionArea").style.opacity="1"
+
+}
+
+}
+
+</script>
