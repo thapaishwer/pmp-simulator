@@ -1,0 +1,57 @@
+[
+{
+"question":"A project manager notices a conflict between two team members. What should the project manager do first?",
+"options":[
+"Escalate to sponsor",
+"Facilitate discussion",
+"Replace a team member",
+"Update risk register"
+],
+"correct":1
+},
+
+{
+"question":"Which document authorizes a project?",
+"options":[
+"Project charter",
+"Project plan",
+"Business case",
+"Scope statement"
+],
+"correct":0
+},
+
+{
+"question":"What leadership style encourages team participation?",
+"options":[
+"Autocratic",
+"Democratic",
+"Laissez-faire",
+"Directive"
+],
+"correct":1
+},
+
+{
+"question":"Which technique identifies root causes of issues?",
+"options":[
+"Fishbone diagram",
+"Monte Carlo",
+"PERT",
+"Earned Value"
+],
+"correct":0
+},
+
+{
+"question":"What is the main purpose of stakeholder engagement?",
+"options":[
+"Reduce project cost",
+"Increase project speed",
+"Align expectations",
+"Remove risks"
+],
+"correct":2
+}
+
+]
