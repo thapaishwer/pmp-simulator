@@ -81,7 +81,10 @@ border:2px solid red;
 let questions=[]
 let current=0
 let answers=[]
+let paused=false
+let timerInterval
 
+  
 fetch("exam1.json")
 .then(res=>res.json())
 .then(data=>{
@@ -203,7 +206,11 @@ alert("Your Score: "+score+" / "+questions.length)
 
 let time=70*60
 
-setInterval(()=>{
+timerInterval=setInterval(updateTimer,1000)
+
+function updateTimer(){
+
+if(!paused){
 
 time--
 
@@ -219,7 +226,30 @@ submitExam()
 
 }
 
-},1000)
+function togglePause(){
+
+paused=!paused
+
+let btn=document.querySelector("button[onclick='togglePause()']")
+
+if(paused){
+
+btn.innerText="Resume Exam"
+
+document.getElementById("questionArea").style.opacity="0.3"
+
+}else{
+
+btn.innerText="Pause"
+
+document.getElementById("questionArea").style.opacity="1"
+
+}
+
+}
+}
+
+}
 
 </script>
 
