@@ -1,86 +1,3 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<title>PMP Simulation Exam</title>
-
-<style>
-
-body{
-font-family:Arial;
-margin:30px;
-}
-
-#timer{
-font-size:22px;
-color:red;
-margin-bottom:20px;
-}
-
-#questionArea{
-margin-bottom:20px;
-}
-
-.option{
-margin:6px;
-}
-
-button{
-padding:8px;
-margin:5px;
-}
-
-#navigator{
-margin-top:20px;
-}
-
-.qbtn{
-width:35px;
-height:35px;
-margin:3px;
-border:1px solid black;
-background:white;
-cursor:pointer;
-}
-
-.answered{
-background:gray;
-color:white;
-}
-
-.unanswered{
-border:2px solid red;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<h2>PMP Simulation Exam</h2>
-
-<div id="timer">70:00</div>
-
-<div id="questionArea"></div>
-<div id="explanationArea" style="margin-top:20px;color:green;"></div>
-<button onclick="prevQuestion()">Previous</button>
-
-<button onclick="submitAnswer()">Submit Answer</button>
-
-<button onclick="nextQuestion()">Next</button>
-
-<button onclick="togglePause()">Pause</button>
-
-<button onclick="submitExam()">Submit Exam</button>
-  
-<hr>
-
-<h3>Question Navigator</h3>
-
-<div id="navigator"></div>
-
 <script>
 
 let questions=[]
@@ -90,24 +7,25 @@ let locked=[]
 let paused=false
 let timerInterval
 
-  
 fetch("data/exam1.json")
-.then(res=>res.json())
-.then(data=>{
+.then(res => res.json())
+.then(data => {
 
 questions=data
 
 createNavigator()
-
 loadQuestion()
 
+})
+.catch(err=>{
+console.error("Error loading questions:",err)
 })
 
 function createNavigator(){
 
 let nav=""
 
-for(let i=0;i<60;i++){
+for(let i=0;i<questions.length;i++){
 
 nav+=`<button class="qbtn unanswered" id="q${i}" onclick="goToQuestion(${i})">${i+1}</button>`
 
@@ -129,13 +47,8 @@ q.options.forEach((opt,i)=>{
 let checked=""
 let disabled=""
 
-if(answers[current]==i){
-checked="checked"
-}
-
-if(locked[current]){
-disabled="disabled"
-}
+if(answers[current]==i) checked="checked"
+if(locked[current]) disabled="disabled"
 
 html+=`
 
@@ -151,6 +64,8 @@ ${opt}
 })
 
 document.getElementById("questionArea").innerHTML=html
+document.getElementById("explanationArea").innerHTML=""
+
 }
 
 function saveAnswer(val){
@@ -167,10 +82,27 @@ function nextQuestion(){
 if(current<questions.length-1){
 
 current++
-
 loadQuestion()
 
 }
+
+}
+
+function prevQuestion(){
+
+if(current>0){
+
+current--
+loadQuestion()
+
+}
+
+}
+
+function goToQuestion(i){
+
+current=i
+loadQuestion()
 
 }
 
@@ -181,7 +113,6 @@ let selected=document.querySelector('input[name="ans"]:checked')
 if(!selected){
 
 alert("Please select an answer first")
-
 return
 
 }
@@ -189,51 +120,22 @@ return
 let val=parseInt(selected.value)
 
 answers[current]=val
-
 locked[current]=true
 
 let q=questions[current]
 
 let correct=q.correct
-
 let explanation=q.explanation
 
-let result=""
-
-if(val==correct){
-
-result="<b style='color:green'>Correct ✔</b>"
-
-}else{
-
-result="<b style='color:red'>Incorrect ❌</b>"
-}
+let result = val==correct
+? "<b style='color:green'>Correct ✔</b>"
+: "<b style='color:red'>Incorrect ❌</b>"
 
 document.getElementById("explanationArea").innerHTML=
 
-result+
-"<br><br>"+
-"<b>Correct Answer:</b> "+q.options[correct]+
-"<br><br>"+
-"<b>Explanation:</b> "+explanation
-
-}
-  
-function prevQuestion(){
-
-if(current>0){
-
-current--
-
-loadQuestion()
-
-}
-
-}
-
-function goToQuestion(i){
-
-current=i
+result +
+"<br><br><b>Correct Answer:</b> " + q.options[correct] +
+"<br><br><b>Explanation:</b> " + explanation
 
 loadQuestion()
 
@@ -245,270 +147,7 @@ let score=0
 
 questions.forEach((q,i)=>{
 
-if(answers[i]==q.correct){
-
-score++
-
-}
-
-})
-
-alert("Your Score: "+score+" / "+questions.length)
-
-}
-
-<!DOCTYPE html>
-<html>
-
-<head>
-
-<title>PMP Simulation Exam</title>
-
-<style>
-
-body{
-font-family:Arial;
-margin:30px;
-}
-
-#timer{
-font-size:22px;
-color:red;
-margin-bottom:20px;
-}
-
-#questionArea{
-margin-bottom:20px;
-}
-
-.option{
-margin:6px;
-}
-
-button{
-padding:8px;
-margin:5px;
-}
-
-#navigator{
-margin-top:20px;
-}
-
-.qbtn{
-width:35px;
-height:35px;
-margin:3px;
-border:1px solid black;
-background:white;
-cursor:pointer;
-}
-
-.answered{
-background:gray;
-color:white;
-}
-
-.unanswered{
-border:2px solid red;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<h2>PMP Simulation Exam</h2>
-
-<div id="timer">70:00</div>
-
-<div id="questionArea"></div>
-<div id="explanationArea" style="margin-top:20px;color:green;"></div>
-<button onclick="prevQuestion()">Previous</button>
-
-<button onclick="submitAnswer()">Submit Answer</button>
-
-<button onclick="nextQuestion()">Next</button>
-
-<button onclick="togglePause()">Pause</button>
-
-<button onclick="submitExam()">Submit Exam</button>
-  
-<hr>
-
-<h3>Question Navigator</h3>
-
-<div id="navigator"></div>
-
-<script>
-
-let questions=[]
-let current=0
-let answers=[]
-let locked=[]
-let paused=false
-let timerInterval
-
-  
-fetch("data/exam1.json")
-.then(res=>res.json())
-.then(data=>{
-
-questions=data
-
-createNavigator()
-
-loadQuestion()
-
-})
-
-function createNavigator(){
-
-let nav=""
-
-for(let i=0;i<60;i++){
-
-nav+=`<button class="qbtn unanswered" id="q${i}" onclick="goToQuestion(${i})">${i+1}</button>`
-
-}
-
-document.getElementById("navigator").innerHTML=nav
-
-}
-
-function loadQuestion(){
-
-let q=questions[current]
-
-let html=`<h3>Question ${current+1}</h3>
-<p>${q.question}</p>`
-
-q.options.forEach((opt,i)=>{
-
-let checked=""
-let disabled=""
-
-if(answers[current]==i){
-checked="checked"
-}
-
-if(locked[current]){
-disabled="disabled"
-}
-
-html+=`
-
-<div class="option">
-
-<input type="radio" name="ans" value="${i}" ${checked} ${disabled} onchange="saveAnswer(${i})">
-
-${opt}
-
-</div>
-`
-
-})
-
-document.getElementById("questionArea").innerHTML=html
-}
-
-function saveAnswer(val){
-
-answers[current]=val
-
-document.getElementById("q"+current).classList.remove("unanswered")
-document.getElementById("q"+current).classList.add("answered")
-
-}
-
-function nextQuestion(){
-
-if(current<questions.length-1){
-
-current++
-
-loadQuestion()
-
-}
-
-}
-
-function submitAnswer(){
-
-let selected=document.querySelector('input[name="ans"]:checked')
-
-if(!selected){
-
-alert("Please select an answer first")
-
-return
-
-}
-
-let val=parseInt(selected.value)
-
-answers[current]=val
-
-locked[current]=true
-
-let q=questions[current]
-
-let correct=q.correct
-
-let explanation=q.explanation
-
-let result=""
-
-if(val==correct){
-
-result="<b style='color:green'>Correct ✔</b>"
-
-}else{
-
-result="<b style='color:red'>Incorrect ❌</b>"
-}
-
-document.getElementById("explanationArea").innerHTML=
-
-result+
-"<br><br>"+
-"<b>Correct Answer:</b> "+q.options[correct]+
-"<br><br>"+
-"<b>Explanation:</b> "+explanation
-
-}
-  
-function prevQuestion(){
-
-if(current>0){
-
-current--
-
-loadQuestion()
-
-}
-
-}
-
-function goToQuestion(i){
-
-current=i
-
-loadQuestion()
-
-}
-
-function submitExam(){
-
-let score=0
-
-questions.forEach((q,i)=>{
-
-if(answers[i]==q.correct){
-
-score++
-
-}
+if(answers[i]==q.correct) score++
 
 })
 
@@ -529,14 +168,10 @@ time--
 let m=Math.floor(time/60)
 let s=time%60
 
-document.getElementById("timer").innerText=
+document.getElementById("timer").innerText =
 m+":"+(s<10?"0"+s:s)
 
-if(time<=0){
-
-submitExam()
-
-}
+if(time<=0) submitExam()
 
 }
 
@@ -551,28 +186,15 @@ let btn=document.querySelector("button[onclick='togglePause()']")
 if(paused){
 
 btn.innerText="Resume Exam"
-
 document.getElementById("questionArea").style.opacity="0.3"
 
 }else{
 
 btn.innerText="Pause"
-
 document.getElementById("questionArea").style.opacity="1"
 
 }
 
 }
 
-}
-
-}
-}
-
-}
-
 </script>
-
-</body>
-
-</html>
