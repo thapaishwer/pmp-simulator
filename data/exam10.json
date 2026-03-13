@@ -1,1 +1,28 @@
-
+[
+{
+"id":1,
+"domain":"People",
+"question":"Which leadership style focuses on supporting the team?",
+"options":[
+"Autocratic",
+"Servant leadership",
+"Directive",
+"Transactional"
+],
+"correct":1,
+"explanation":"Servant leaders remove obstacles and support the team."
+},
+{
+"id":2,
+"domain":"Process",
+"question":"Which document authorizes a project?",
+"options":[
+"Project charter",
+"Risk register",
+"Scope baseline",
+"Project schedule"
+],
+"correct":0,
+"explanation":"The project charter formally authorizes the project."
+}
+]
