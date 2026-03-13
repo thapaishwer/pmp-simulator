@@ -89,10 +89,10 @@ let locked=[]
 let paused=false
 let timerInterval
 
-// get exam number
-
 const params=new URLSearchParams(window.location.search)
 const examNumber=params.get("exam") || 1
+
+const examKey="pmp_exam_"+examNumber
 
 fetch(`data/exam${examNumber}.json`)
 .then(res=>res.json())
