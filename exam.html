@@ -218,17 +218,23 @@ let q=questions[current]
 let correct=q.correct
 let explanation=q.explanation
 
-let result = val==correct
-? "<b style='color:green'>Correct ✔</b>"
-: "<b style='color:red'>Incorrect ❌</b>"
+let result=""
+
+if(val==correct){
+
+result="<b style='color:green'>Correct ✔</b>"
+
+}else{
+
+result="<b style='color:red'>Incorrect ❌</b>"
+
+}
 
 document.getElementById("explanationArea").innerHTML=
 
 result +
-"<br><br><b>Correct Answer:</b> "+q.options[correct] +
-"<br><br><b>Explanation:</b> "+explanation
-
-loadQuestion()
+"<br><br><b>Correct Answer:</b> "+ q.options[correct] +
+"<br><br><b>Explanation:</b> "+ explanation
 
 }
 
