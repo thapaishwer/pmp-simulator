@@ -1,3 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>PMP Simulation Exam</title>
+
+<style>
+
+body{
+font-family:Arial;
+margin:30px;
+}
+
+#timer{
+font-size:22px;
+color:red;
+margin-bottom:20px;
+}
+
+.option{
+margin:6px;
+}
+
+button{
+padding:8px;
+margin:5px;
+}
+
+#navigator{
+margin-top:20px;
+}
+
+.qbtn{
+width:35px;
+height:35px;
+margin:3px;
+border:1px solid black;
+background:white;
+cursor:pointer;
+}
+
+.answered{
+background:gray;
+color:white;
+}
+
+.unanswered{
+border:2px solid red;
+}
+
+#explanationArea{
+margin-top:20px;
+color:green;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>PMP Simulation Exam</h2>
+
+<div id="timer">70:00</div>
+
+<div id="questionArea"></div>
+
+<div id="explanationArea"></div>
+
+<button onclick="prevQuestion()">Previous</button>
+<button onclick="submitAnswer()">Submit Answer</button>
+<button onclick="nextQuestion()">Next</button>
+<button onclick="togglePause()">Pause</button>
+<button onclick="submitExam()">Submit Exam</button>
+
+<hr>
+
+<h3>Question Navigator</h3>
+
+<div id="navigator"></div>
+
 <script>
 
 let questions=[]
@@ -7,9 +89,14 @@ let locked=[]
 let paused=false
 let timerInterval
 
-fetch("data/exam1.json")
-.then(res => res.json())
-.then(data => {
+// get exam number
+
+const params=new URLSearchParams(window.location.search)
+const examNumber=params.get("exam") || 1
+
+fetch(`data/exam${examNumber}.json`)
+.then(res=>res.json())
+.then(data=>{
 
 questions=data
 
@@ -18,7 +105,8 @@ loadQuestion()
 
 })
 .catch(err=>{
-console.error("Error loading questions:",err)
+console.error("JSON loading error:",err)
+alert("Failed to load exam questions.")
 })
 
 function createNavigator(){
@@ -37,6 +125,8 @@ document.getElementById("navigator").innerHTML=nav
 
 function loadQuestion(){
 
+if(!questions.length) return
+
 let q=questions[current]
 
 let html=`<h3>Question ${current+1}</h3>
@@ -54,7 +144,8 @@ html+=`
 
 <div class="option">
 
-<input type="radio" name="ans" value="${i}" ${checked} ${disabled} onchange="saveAnswer(${i})">
+<input type="radio" name="ans" value="${i}" ${checked} ${disabled}
+onchange="saveAnswer(${i})">
 
 ${opt}
 
@@ -134,8 +225,8 @@ let result = val==correct
 document.getElementById("explanationArea").innerHTML=
 
 result +
-"<br><br><b>Correct Answer:</b> " + q.options[correct] +
-"<br><br><b>Explanation:</b> " + explanation
+"<br><br><b>Correct Answer:</b> "+q.options[correct] +
+"<br><br><b>Explanation:</b> "+explanation
 
 loadQuestion()
 
@@ -198,3 +289,6 @@ document.getElementById("questionArea").style.opacity="1"
 }
 
 </script>
+
+</body>
+</html>
