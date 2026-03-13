@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <title>PMP Mock Exam Simulator</title>
+
 <style>
 
 body{
@@ -9,10 +11,14 @@ font-family: Arial;
 margin:40px;
 }
 
-button{
-padding:10px;
+h1{
+margin-bottom:10px;
+}
+
+.simlink{
+display:block;
+margin:4px 0;
 font-size:16px;
-margin-top:20px;
 }
 
 </style>
@@ -22,40 +28,31 @@ margin-top:20px;
 
 <h1>PMP Mock Exam Simulator</h1>
 
-<p>Simulation Format</p>
+<p><b>Simulation Format</b></p>
 
-<h2>PMP Simulations</h2>
-
-<a href="exam.html?exam=1">Simulation 1</a><br>
-<a href="exam.html?exam=2">Simulation 2</a><br>
-<a href="exam.html?exam=3">Simulation 3</a><br>
-<a href="exam.html?exam=4">Simulation 4</a><br>
-<a href="exam.html?exam=5">Simulation 5</a><br>
-<a href="exam.html?exam=6">Simulation 6</a><br>
-<a href="exam.html?exam=7">Simulation 7</a><br>
-<a href="exam.html?exam=8">Simulation 8</a><br>
-<a href="exam.html?exam=9">Simulation 9</a><br>
-<a href="exam.html?exam=10">Simulation 10</a><br>
-<a href="exam.html?exam=11">Simulation 11</a><br>
-<a href="exam.html?exam=12">Simulation 12</a><br>
-<a href="exam.html?exam=13">Simulation 13</a><br>
-<a href="exam.html?exam=14">Simulation 14</a><br>
-<a href="exam.html?exam=15">Simulation 15</a><br>
-<a href="exam.html?exam=16">Simulation 16</a><br>
-<a href="exam.html?exam=17">Simulation 17</a><br>
-<a href="exam.html?exam=18">Simulation 18</a><br>
-<a href="exam.html?exam=19">Simulation 19</a><br>
-<a href="exam.html?exam=20">Simulation 20</a><br>
-  
 <ul>
 <li>60 Questions</li>
 <li>70 Minutes</li>
 <li>People / Process / Business Domains</li>
 </ul>
 
-<a href="exam.html?exam=1">
-<button>Start Simulation 1</button>
-</a>
+<h2>PMP Simulations</h2>
+
+<div id="simulations"></div>
+
+<script>
+
+let html=""
+
+for(let i=1;i<=20;i++){
+
+html+=`<a class="simlink" href="exam.html?exam=${i}">Simulation ${i}</a>`
+
+}
+
+document.getElementById("simulations").innerHTML=html
+
+</script>
 
 </body>
 </html>
