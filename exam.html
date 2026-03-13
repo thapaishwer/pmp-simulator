@@ -235,7 +235,7 @@ document.getElementById("explanationArea").innerHTML=
 result +
 "<br><br><b>Correct Answer:</b> "+ q.options[correct] +
 "<br><br><b>Explanation:</b> "+ explanation
-
+document.querySelectorAll('input[name="ans"]').forEach(r => r.disabled=true)
 }
 
 function submitExam(){
