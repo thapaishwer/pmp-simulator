@@ -103,6 +103,28 @@ questions=data
 createNavigator()
 loadQuestion()
 
+.then(data=>{
+
+questions=data
+
+let saved=localStorage.getItem(examKey)
+
+if(saved){
+
+let state=JSON.parse(saved)
+
+current=state.current
+answers=state.answers
+locked=state.locked
+time=state.time
+
+}
+
+createNavigator()
+loadQuestion()
+
+})
+  
 })
 .catch(err=>{
 console.error("JSON loading error:",err)
@@ -154,6 +176,19 @@ ${opt}
 
 })
 
+function saveState(){
+
+localStorage.setItem(examKey,JSON.stringify({
+
+current:current,
+answers:answers,
+locked:locked,
+time:time
+
+}))
+
+}
+  
 document.getElementById("questionArea").innerHTML=html
 document.getElementById("explanationArea").innerHTML=""
 
@@ -178,7 +213,17 @@ loadQuestion()
 }
 
 }
+function saveAnswer(val){
 
+answers[current]=val
+
+document.getElementById("q"+current).classList.remove("unanswered")
+document.getElementById("q"+current).classList.add("answered")
+
+saveState()
+
+}
+  
 function prevQuestion(){
 
 if(current>0){
