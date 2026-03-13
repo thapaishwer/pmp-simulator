@@ -313,7 +313,11 @@ let s=time%60
 document.getElementById("timer").innerText =
 m+":"+(s<10?"0"+s:s)
 
+saveState()
+
 if(time<=0) submitExam()
+
+}
 
 }
 
