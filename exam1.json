@@ -1,67 +1,57 @@
 [
 {
-"id":1,
-"domain":"People",
-"question":"Which leadership style focuses on supporting and empowering the team?",
+"question":"A project manager notices a conflict between two team members. What should the project manager do first?",
 "options":[
-"Autocratic leadership",
-"Servant leadership",
-"Directive leadership",
-"Transactional leadership"
+"Escalate to sponsor",
+"Facilitate discussion",
+"Replace a team member",
+"Update risk register"
 ],
-"correct":1,
-"explanation":"Servant leadership focuses on supporting the team and removing obstacles."
+"correct":1
 },
+
 {
-"id":2,
-"domain":"People",
-"question":"Two team members disagree about how to complete a task. What should the project manager do first?",
-"options":[
-"Escalate the issue to the sponsor",
-"Facilitate discussion between team members",
-"Replace one team member",
-"Ignore the conflict"
-],
-"correct":1,
-"explanation":"PMI recommends resolving conflict through collaboration and discussion."
-},
-{
-"id":3,
-"domain":"Process",
-"question":"Which document formally authorizes a project?",
+"question":"Which document authorizes a project?",
 "options":[
 "Project charter",
-"Project management plan",
-"Scope baseline",
-"Risk register"
+"Project plan",
+"Business case",
+"Scope statement"
 ],
-"correct":0,
-"explanation":"The project charter authorizes the project and gives the project manager authority."
+"correct":0
 },
+
 {
-"id":4,
-"domain":"Process",
-"question":"Which tool helps identify root causes of problems?",
+"question":"What leadership style encourages team participation?",
+"options":[
+"Autocratic",
+"Democratic",
+"Laissez-faire",
+"Directive"
+],
+"correct":1
+},
+
+{
+"question":"Which technique identifies root causes of issues?",
 "options":[
 "Fishbone diagram",
-"Monte Carlo simulation",
-"PERT analysis",
-"Control chart"
+"Monte Carlo",
+"PERT",
+"Earned Value"
 ],
-"correct":0,
-"explanation":"Fishbone diagram (Ishikawa diagram) is used for root cause analysis."
+"correct":0
 },
+
 {
-"id":5,
-"domain":"Business",
-"question":"Why is a business case created?",
+"question":"What is the main purpose of stakeholder engagement?",
 "options":[
-"To define scope",
-"To justify the project investment",
-"To build the schedule",
-"To assign resources"
+"Reduce project cost",
+"Increase project speed",
+"Align expectations",
+"Remove risks"
 ],
-"correct":1,
-"explanation":"The business case explains the value and justification for starting the project."
+"correct":2
 }
+
 ]
