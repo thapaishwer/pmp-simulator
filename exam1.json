@@ -1,200 +1,67 @@
-<script>
-
-let questions=[]
-let current=0
-let answers=[]
-let locked=[]
-let paused=false
-let timerInterval
-
-fetch("data/exam1.json")
-.then(res => res.json())
-.then(data => {
-
-questions=data
-
-createNavigator()
-loadQuestion()
-
-})
-.catch(err=>{
-console.error("Error loading questions:",err)
-})
-
-function createNavigator(){
-
-let nav=""
-
-for(let i=0;i<questions.length;i++){
-
-nav+=`<button class="qbtn unanswered" id="q${i}" onclick="goToQuestion(${i})">${i+1}</button>`
-
+[
+{
+"id":1,
+"domain":"People",
+"question":"Which leadership style focuses on supporting and empowering the team?",
+"options":[
+"Autocratic leadership",
+"Servant leadership",
+"Directive leadership",
+"Transactional leadership"
+],
+"correct":1,
+"explanation":"Servant leadership focuses on supporting the team and removing obstacles."
+},
+{
+"id":2,
+"domain":"People",
+"question":"Two team members disagree about how to complete a task. What should the project manager do first?",
+"options":[
+"Escalate the issue to the sponsor",
+"Facilitate discussion between team members",
+"Replace one team member",
+"Ignore the conflict"
+],
+"correct":1,
+"explanation":"PMI recommends resolving conflict through collaboration and discussion."
+},
+{
+"id":3,
+"domain":"Process",
+"question":"Which document formally authorizes a project?",
+"options":[
+"Project charter",
+"Project management plan",
+"Scope baseline",
+"Risk register"
+],
+"correct":0,
+"explanation":"The project charter authorizes the project and gives the project manager authority."
+},
+{
+"id":4,
+"domain":"Process",
+"question":"Which tool helps identify root causes of problems?",
+"options":[
+"Fishbone diagram",
+"Monte Carlo simulation",
+"PERT analysis",
+"Control chart"
+],
+"correct":0,
+"explanation":"Fishbone diagram (Ishikawa diagram) is used for root cause analysis."
+},
+{
+"id":5,
+"domain":"Business",
+"question":"Why is a business case created?",
+"options":[
+"To define scope",
+"To justify the project investment",
+"To build the schedule",
+"To assign resources"
+],
+"correct":1,
+"explanation":"The business case explains the value and justification for starting the project."
 }
-
-document.getElementById("navigator").innerHTML=nav
-
-}
-
-function loadQuestion(){
-
-let q=questions[current]
-
-let html=`<h3>Question ${current+1}</h3>
-<p>${q.question}</p>`
-
-q.options.forEach((opt,i)=>{
-
-let checked=""
-let disabled=""
-
-if(answers[current]==i) checked="checked"
-if(locked[current]) disabled="disabled"
-
-html+=`
-
-<div class="option">
-
-<input type="radio" name="ans" value="${i}" ${checked} ${disabled} onchange="saveAnswer(${i})">
-
-${opt}
-
-</div>
-`
-
-})
-
-document.getElementById("questionArea").innerHTML=html
-document.getElementById("explanationArea").innerHTML=""
-
-}
-
-function saveAnswer(val){
-
-answers[current]=val
-
-document.getElementById("q"+current).classList.remove("unanswered")
-document.getElementById("q"+current).classList.add("answered")
-
-}
-
-function nextQuestion(){
-
-if(current<questions.length-1){
-
-current++
-loadQuestion()
-
-}
-
-}
-
-function prevQuestion(){
-
-if(current>0){
-
-current--
-loadQuestion()
-
-}
-
-}
-
-function goToQuestion(i){
-
-current=i
-loadQuestion()
-
-}
-
-function submitAnswer(){
-
-let selected=document.querySelector('input[name="ans"]:checked')
-
-if(!selected){
-
-alert("Please select an answer first")
-return
-
-}
-
-let val=parseInt(selected.value)
-
-answers[current]=val
-locked[current]=true
-
-let q=questions[current]
-
-let correct=q.correct
-let explanation=q.explanation
-
-let result = val==correct
-? "<b style='color:green'>Correct ✔</b>"
-: "<b style='color:red'>Incorrect ❌</b>"
-
-document.getElementById("explanationArea").innerHTML=
-
-result +
-"<br><br><b>Correct Answer:</b> " + q.options[correct] +
-"<br><br><b>Explanation:</b> " + explanation
-
-loadQuestion()
-
-}
-
-function submitExam(){
-
-let score=0
-
-questions.forEach((q,i)=>{
-
-if(answers[i]==q.correct) score++
-
-})
-
-alert("Your Score: "+score+" / "+questions.length)
-
-}
-
-let time=70*60
-
-timerInterval=setInterval(updateTimer,1000)
-
-function updateTimer(){
-
-if(!paused){
-
-time--
-
-let m=Math.floor(time/60)
-let s=time%60
-
-document.getElementById("timer").innerText =
-m+":"+(s<10?"0"+s:s)
-
-if(time<=0) submitExam()
-
-}
-
-}
-
-function togglePause(){
-
-paused=!paused
-
-let btn=document.querySelector("button[onclick='togglePause()']")
-
-if(paused){
-
-btn.innerText="Resume Exam"
-document.getElementById("questionArea").style.opacity="0.3"
-
-}else{
-
-btn.innerText="Pause"
-document.getElementById("questionArea").style.opacity="1"
-
-}
-
-}
-
-</script>
+]
